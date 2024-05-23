@@ -39,11 +39,25 @@ pipeline {
                    def packageJSONVersion = packageJSON.version
                    sh "curl -u admin:lms12345 -X GET \'http://13.234.122.48:8081/repository/LMS/lms-${packageJSONVersion}.zip\' --output lms-'${packageJSONVersion}'.zip"
                    sh 'sudo rm -rf /var/www/html/*'
-                   sh "sudo unzip  lms-'${packageJSONVersion}'.zip"
+                   sh "sudo unzip -o lms-'${packageJSONVersion}'.zip"
                    sh "sudo cp -rf webapp/dist/* /var/www/html"           
            }
            }
        }
+
+    //     stage('Deploy LMS') {
+    //        steps {
+    //            script {
+    //                echo "Deploy LMS"      
+    //                def packageJSON = readJSON file: 'webapp/package.json'
+    //                def packageJSONVersion = packageJSON.version
+    //                sh "curl -u admin:lms12345 -X GET \'http://54.190.152.188:8081/repository/lms/lms-${packageJSONVersion}.zip\' --output lms-'${packageJSONVersion}'.zip"
+    //                sh 'sudo rm -rf /var/www/html/*'
+    //                sh "sudo unzip -o lms-'${packageJSONVersion}'.zip"
+    //                sh "sudo cp -r webapp/dist/* /var/www/html"           
+    //        }
+    //        }
+    //    }
 
 
    }
