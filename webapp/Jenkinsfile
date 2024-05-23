@@ -4,7 +4,6 @@ pipeline {
  stage('Build LMS') {
            steps {
                echo 'BUILD LMS APP'
-               sh 'cd webapp && npm install && npm run build'
                echo 'BUILD COMPLETED'
            }
        }
