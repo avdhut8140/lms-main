@@ -26,6 +26,7 @@ pipeline {
                    def packageJSONVersion = packageJSON.version
                    sh "zip webapp/lms-${packageJSONVersion}.zip -r webapp/dist"
                    sh "curl -v -u admin:Avdhut@8140 --upload-file webapp/lms-${packageJSONVersion}.zip http://13.234.122.48:8081/repository/LMS/"    
+                   sh "sudo rm -rf dist"
            }
            }
        }
@@ -41,6 +42,7 @@ pipeline {
                    sh 'sudo rm -rf /var/www/html/*'
                    sh "sudo unzip -o lms-'${packageJSONVersion}'.zip"
                    sh "sudo cp -rf webapp/dist/* /var/www/html"           
+                   sh "sudo rm -rf dist"
            }
            }
        }
