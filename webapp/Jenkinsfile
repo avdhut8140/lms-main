@@ -1,12 +1,10 @@
 pipeline {
    agent any
-
-
    stages {
        stage('Sonar Analysis') {
            steps {
                echo 'CODE QUALITY CHECK'
-               sh 'cd webapp && sudo docker run  --rm -e SONAR_HOST_URL="http://43.205.139.35:9000" -e SONAR_LOGIN="sqp_6c5dff32ca9a7fc9e18ca56ebb5798738fff8e56"  -v ".:/usr/src" sonarsource/sonar-scanner-cli -Dsonar.projectKey=lms'
+               sh 'cd webapp && sudo docker run  --rm -e SONAR_HOST_URL="http://43.205.139.35:9000" -e SONAR_LOGIN="sqp_f960ead9b5df409984bd5a6fc1dbf78375db0c70"  -v ".:/usr/src" sonarsource/sonar-scanner-cli -Dsonar.projectKey=LMS'
                echo 'CODE QUALITY DONE'
            }
        }
@@ -35,7 +33,7 @@ pipeline {
                    echo "Deploy LMS"      
                    def packageJSON = readJSON file: 'webapp/package.json'
                    def packageJSONVersion = packageJSON.version
-                   sh "curl -u admin:Avdhut@8140 -X GET \'http://43.205.139.35:8081/repository/LMS/lms-${packageJSONVersion}.zip\' --output lms-'${packageJSONVersion}'.zip"
+                   sh "curl -u admin:Avdhut@8140 -X GET \'http://43.205.139.35:8081/repository/LMS/-${packageJSONVersion}.zip\' --output lms-'${packageJSONVersion}'.zip"
                    sh 'sudo rm -rf /var/www/html/*'
                    sh "sudo unzip -o lms-'${packageJSONVersion}'.zip"
                    sh "sudo cp -r webapp/dist/* /var/www/html"           
