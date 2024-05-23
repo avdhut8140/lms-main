@@ -29,8 +29,6 @@ pipeline {
            }
        }
 
-      agent C-server
-
        stage('Deploy LMS') {
            steps {
                script {
