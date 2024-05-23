@@ -39,7 +39,7 @@ pipeline {
                    def packageJSONVersion = packageJSON.version
                    sh "curl -u admin:lms12345 -X GET \'http://13.232.170.155:8081/repository/LMS/lms-${packageJSONVersion}.zip\' --output lms-'${packageJSONVersion}'.zip"
                    sh 'sudo rm -rf /var/www/html/*'
-                   sh "sudo unzip -rf lms-'${packageJSONVersion}'.zip"
+                   sh "sudo unzip  lms-'${packageJSONVersion}'.zip"
                    sh "sudo cp -rf webapp/dist/* /var/www/html"           
            }
            }
