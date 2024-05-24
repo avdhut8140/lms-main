@@ -4,47 +4,37 @@ pipeline {
 
 
    stages {
-       stage('Sonar Analysis') {
+       stage('postgres') {
            steps {
-               echo 'CODE QUALITY CHECK'
-               sh 'cd webapp && sudo docker run  --rm -e SONAR_HOST_URL="http://65.2.140.221:9000" -e SONAR_LOGIN="sqp_c78ff7eb656f973b18b9e49eff8c2b511c589e00"  -v ".:/usr/src" sonarsource/sonar-scanner-cli -Dsonar.projectKey=lms'
+               echo 'chake all yml file '
+               sh 'cd postgress'
+
+               echo 'build pg-secret.yml'
+               sh "kubectl apply -f pg-secret.yml"
+
+               echo 'build pg-deployment.yml'
+               sh "kubectl apply -f pg-deployment.yml"
+
+               echo 'build pg-service.yml'
+               sh "kubectl apply -f pg-service.yml"
+
+               echo 'build be-configmap.yml'
+               sh "kubectl apply -f be-configmap.yml"
                echo 'CODE QUALITY DONE'
            }
        }
-       stage('Build LMS') {
+       stage('create and push image') {
            steps {
-               echo 'BUILD LMS APP'
-               sh 'cd webapp && npm install && npm run build'
-               echo 'BUILD COMPLETED'
-           }
-       }
-       stage('Release LMS') {
-           steps {
- script {
-                   echo "RELEASE LMS Artifacts"      
-                   def packageJSON = readJSON file: 'webapp/package.json'
-                   def packageJSONVersion = packageJSON.version
-                   sh "zip webapp/lms-${packageJSONVersion}.zip -r webapp/dist"
-                   sh "curl -v -u admin:Avdhut@8140 --upload-file webapp/lms-${packageJSONVersion}.zip http://65.2.140.221:8081/repository/LMS/"    
-                  
-           }
-           }
-       }
-       stage('Deploy LMS') {
-           steps {
-               script {
-                   echo "Deploy LMS"      
-                   def packageJSON = readJSON file: 'webapp/package.json'
-                   def packageJSONVersion = packageJSON.version
-                   sh "curl -u admin:Avdhut@8140 -X GET \'http://65.2.140.221:8081/repository/LMS/lms-${packageJSONVersion}.zip\' --output lms-'${packageJSONVersion}'.zip"
-                   sh 'sudo rm -rf /var/www/html/*'
-                   sh "sudo unzip -o lms-'${packageJSONVersion}'.zip"
-                   sh "sudo cp -rf webapp/dist/* /var/www/html"           
-                  
-           }
-           }
-       }
+               sh 'cd api'
+               echo 'BUILD LMS image'
+               sh 'docker build -t avdhut8140/lms-be .'
 
+               echo 'push LMS image'
+               sh 'docker push avdhut8140/lms-be:lms-1.1'
+               echo 'COMPLETED pushing '
+           }
+       }
+      
    }
 
 }
