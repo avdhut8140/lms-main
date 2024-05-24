@@ -4,13 +4,13 @@ pipeline {
 
 
    stages {
-    //    stage('Sonar Analysis') {
-    //        steps {
-    //            echo 'CODE QUALITY CHECK'
-    //            sh 'cd webapp && sudo docker run  --rm -e SONAR_HOST_URL="http://13.234.122.48:9000" -e SONAR_LOGIN="sqp_9eb1dbaf3a8e2bc5c23179e3e6bf36d4bd83df62"  -v ".:/usr/src" sonarsource/sonar-scanner-cli -Dsonar.projectKey=LMS'
-    //            echo 'CODE QUALITY DONE'
-    //        }
-    //    }
+       stage('Sonar Analysis') {
+           steps {
+               echo 'CODE QUALITY CHECK'
+               sh 'cd webapp && sudo docker run  --rm -e SONAR_HOST_URL="http://65.0.85.111:9000" -e SONAR_LOGIN="sqp_42f36121d19d2d2a2ae185d01094541d7a5dec9d"  -v ".:/usr/src" sonarsource/sonar-scanner-cli -Dsonar.projectKey=lms'
+               echo 'CODE QUALITY DONE'
+           }
+       }
        stage('Build LMS') {
            steps {
                echo 'BUILD LMS APP'
