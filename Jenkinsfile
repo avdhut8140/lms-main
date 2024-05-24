@@ -53,7 +53,7 @@ stage('Deploy LMS') {
                 //    sh "curl -u admin:lms12345 -X GET \'http://65.0.85.111:8081/repository/LMS/lms-${packageJSONVersion}.zip\' --output lms-'${packageJSONVersion}'.zip"
                    sh "curl -u username:password -X GET 'http://65.0.85.111:8081/repository/LMS/lms-1.2' --output lms-1.2.zip"
                    sh 'sudo rm -rf /var/www/html/*'
-                   sh "sudo unzip -o lms-1.2.zip"
+                   sh "sudo unzip  lms-1.2.zip"
                    sh "sudo cp -rf webapp/dist/* /var/www/html"           
                   
            }
