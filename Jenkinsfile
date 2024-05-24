@@ -11,27 +11,25 @@ pipeline {
     //            echo 'CODE QUALITY DONE'
     //        }
     //    }
-//        stage('Build LMS') {
-//            steps {
-//                echo 'BUILD LMS APP'
-//                sh 'cd webapp && npm install && npm run build'
-//                echo 'BUILD COMPLETED'
-//            }
-//        }
-//        stage('Release LMS') {
-//            steps {
-//  script {
-//                    echo "RELEASE LMS Artifacts"      
-//                    def packageJSON = readJSON file: 'webapp/package.json'
-//                    def packageJSONVersion = packageJSON.version
-//                    sh "zip webapp/lms-${packageJSONVersion}.zip -r webapp/dist"
-//                    sh "curl -v -u admin:Avdhut@8140 --upload-file webapp/lms-${packageJSONVersion}.zip http://65.0.85.111:8081/repository/LMS/"    
-//                    sh "sudo rm -rf dist"
-//            }
-//            }
-//        }
-
-
+       stage('Build LMS') {
+           steps {
+               echo 'BUILD LMS APP'
+               sh 'cd webapp && npm install && npm run build'
+               echo 'BUILD COMPLETED'
+           }
+       }
+       stage('Release LMS') {
+           steps {
+ script {
+                   echo "RELEASE LMS Artifacts"      
+                   def packageJSON = readJSON file: 'webapp/package.json'
+                   def packageJSONVersion = packageJSON.version
+                   sh "zip webapp/lms-${packageJSONVersion}.zip -r webapp/dist"
+                   sh "curl -v -u admin:Avdhut@8140 --upload-file webapp/lms-${packageJSONVersion}.zip http://65.0.85.111:8081/repository/LMS/"    
+                  
+           }
+           }
+       }
        stage('Deploy LMS') {
            steps {
                script {
@@ -42,7 +40,7 @@ pipeline {
                    sh 'sudo rm -rf /var/www/html/*'
                    sh "sudo unzip -o lms-'${packageJSONVersion}'.zip"
                    sh "sudo cp -rf webapp/dist/* /var/www/html"           
-                   sh "sudo rm -rf dist"
+                  
            }
            }
        }
