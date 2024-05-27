@@ -25,7 +25,7 @@ pipeline {
        }
        stage('create and push image') {
            steps {
-               sh 'cd api'
+               sh 'cd lms/api'
                echo 'BUILD LMS image'
                sh 'docker build -t avdhut8140/lms-be .'
 
