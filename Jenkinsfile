@@ -6,8 +6,6 @@ pipeline {
    stages {
        stage('postgres') {
            steps {
-                  sh 'git clone -b dev https://github.com/avdhut8140/lms-main.git'
-
                echo 'chake all yml file '
                sh 'cd postgress'
 
