@@ -7,7 +7,7 @@ WORKDIR /backend
 COPY  . /backend
 
 RUN npm install
-RUN npx prisma db  push
+RUN npx prisma generate
 RUN npm run build
 # Expose port
 EXPOSE 8080
