@@ -13,3 +13,4 @@ RUN npm run build
 EXPOSE 8080
 # Start app
 CMD ["node","build/index.js"]
+
