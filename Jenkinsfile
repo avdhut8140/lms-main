@@ -9,8 +9,8 @@ pipeline {
                echo 'chake all yml file '
                sh 'cd postgress'
 
-            //    echo 'build pg-secret.yml'
-            //    sh "kubectl apply -f pg-secret.yml"
+               echo 'build pg-secret.yml'
+               sh "kubectl apply -f pg-secret.yml"
 
                echo 'build pg-deployment.yml'
                sh "kubectl apply -f pg-deployment.yml"
