@@ -7,18 +7,7 @@ pipeline {
        stage('postgres') {
            steps {
                echo 'chake all yml file '
-            //    sh "/home/ubuntu/LMS-MAIN/cd postgress"
-             stages {
-    stage ('build') {
-      steps {
-
-        // JENKINSHOME is just a name to help readability
-        withEnv(['PATH+JENKINSHOME=/home/jenkins/bin']) {
-          echo "PATH is: $PATH"
-        }
-      }
-    }
-  }
+               sh "/home/ubuntu/LMS-MAIN/cd postgress"
 
                echo 'build pg-secret.yml'
                sh "kubectl apply -f pg-secret.yml"
