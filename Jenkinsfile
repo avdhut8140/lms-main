@@ -7,7 +7,7 @@ pipeline {
        stage('postgres') {
            steps {
                echo 'chake all yml file '
-               sh "/home/ubuntu/LMS-MAIN/cd postgress"
+               sh "cd postgress"
 
                echo 'build pg-secret.yml'
                sh "kubectl apply -f pg-secret.yml"
