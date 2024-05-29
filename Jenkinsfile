@@ -8,6 +8,7 @@ pipeline {
            steps {
                echo 'chake all yml file '
                sh "cd postgress"
+               sh "ls"
 
                echo 'build pg-secret.yml'
                sh "kubectl apply -f pg-secret.yml"
