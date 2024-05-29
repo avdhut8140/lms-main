@@ -8,6 +8,7 @@ pipeline {
            steps {
                echo 'chake all yml  '
                sh "ls"
+               sh " kubectl get nodes"
 
                echo 'build pg-secret.yml'
                sh "kubectl apply -f pg-secret.yml"
