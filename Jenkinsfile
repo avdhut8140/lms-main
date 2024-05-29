@@ -7,7 +7,6 @@ pipeline {
        stage('postgres') {
            steps {
                echo 'chake all yml file '
-               sh "cd postgress"
                sh "ls"
 
                echo 'build pg-secret.yml'
