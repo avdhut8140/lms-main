@@ -1,41 +1,51 @@
-
 pipeline {
-   agent any
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+               sh " docker container run -dt --name lms-db -e POSTGRES_PASSWORD=Avdhut@8140 postgres"
+            }
+        }
 
 
-   stages {
-       stage('postgres') {
-           steps {
-               echo 'chake all yml  '
-               sh "ls"
-               sh " kubectl get nodes"
+        stage('Test') {
+            steps {
+               stage('Start') {
+  steps {
+    script {
+      def container = docker.image('mongo:latest').run('-p 27017:27017 --name mongodb -d')
 
-               echo 'build pg-secret.yml'
-               sh "kubectl apply -f pg-secret.yml"
+      def ipAddress = null
 
-               echo 'build pg-deployment.yml'
-               sh "kubectl apply -f pg-deployment.yml"
+      while (!ipAddress) {
 
-               echo 'build pg-service.yml'
-               sh "kubectl apply -f pg-service.yml"
+        ipAddress = sh(
+          returnStdout: true,
+          script      : "docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mongodb"
+        )
 
-               echo 'build be-configmap.yml'
-               sh "kubectl apply -f be-configmap.yml"
-               echo 'CODE QUALITY DONE'
-           }
-       }
-       stage('create and push image') {
-           steps {
-               sh 'cd lms/api'
-               echo 'BUILD LMS image'
-               sh 'docker build -t avdhut8140/lms-be .'
+        if (!ipAddress) {
+          echo "Container IP address not yet available..."
+          sh "sleep 2"
+        }
 
-               echo 'push LMS image'
-               sh 'docker push avdhut8140/lms-be:lms-1.1'
-               echo 'COMPLETED pushing '
-           }
-       }
-      
-   }
+      }
 
+      echo "Got IP address = ${ipAddress}."
+    }
+  }
+}
+            }
+        }
+
+
+
+        
+        stage('Deploy') {
+            steps {
+                echo 'Deploying....'
+            }
+        }
+    }
 }
